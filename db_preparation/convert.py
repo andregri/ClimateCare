@@ -19,8 +19,9 @@ def make_json(csvFilePath, jsonFilePath):
          
         # Convert each row into a dictionary
         # and add it to data
+        data = []
         for id, rows in enumerate(csvReader):
-            data[id] = rows
+            data.append(rows)
  
     # Open a json writer, and use the json.dumps()
     # function to dump data
