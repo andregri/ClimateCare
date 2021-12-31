@@ -29,7 +29,7 @@ def upload(mongo_uri, json_path, db, collection):
 def main():
     # Parse command args
     parser = argparse.ArgumentParser(description='Upload json dataset to MongoDB')
-    parser.add_argument('cloud', action='store_false',
+    parser.add_argument('--cloud', action='store_true',
                         help='upload to MongoDB Atlas')
     args = parser.parse_args()
 
