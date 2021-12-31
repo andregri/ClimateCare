@@ -21,8 +21,9 @@ def upload(mongo_uri, json_path, db, collection):
         climate_db = client[db]
         collection = climate_db[collection]
 
-        insert_result = collection.insert_one(power_plants[0])
-        print(insert_result.inserted_id)
+        #insert_result = collection.insert_one(power_plants[0])
+        insert_result = collection.insert_many(power_plants)
+        print(insert_result.inserted_ids)
 
 
 def main():
