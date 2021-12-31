@@ -13,3 +13,8 @@ For example my `GPPDB_PATH` env variable for the file `./data/global_power_plant
 ```
 export GPPDB_PATH='./data/global_power_plant_database'
 ```
+
+### Run Flask app
+```
+FLASK_ENV=development FLASK_DEBUG=true FLASK_APP=app flask run
+```
