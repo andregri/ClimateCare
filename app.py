@@ -39,31 +39,6 @@ def index():
    return render_template('/index.html')
 
 
-def get_plant_bycountry(country: str):
-   result = power_plants.aggregate([
-      {
-         '$search': {
-            'index': 'default',
-            'text': {
-               'query': country,
-               'path': 'country_long'
-            }
-         }
-      },
-      {
-         '$limit': 5
-      },
-      {
-         '$project': {
-            '_id': 0,
-            'country_long': 1,
-            'name': 1
-         }
-      }
-   ])
-   return result
-
-
 def get_fuels(country):
    """
    Accumulate capacities for each fuel type for a given country
@@ -93,8 +68,46 @@ def get_fuels(country):
    return result
 
 
-@app.route('/<string:country>', methods=["GET"])
+def top_five_byfuel(fuel):
+   """
+   Find the top five countries by fuel type capacity
+   """
+   result = power_plants.aggregate([
+      {
+         '$match': {
+            'primary_fuel': fuel
+         }
+      },
+      {
+         # Accumulate capacity by fuel type
+         '$group':
+         {
+            '_id': '$country_long',
+            'totCapacity': {
+               '$sum': {'$toDecimal': '$capacity_mw'}
+            }
+         }
+      },
+      {
+         '$sort': {'totCapacity': -1}
+      },
+      {
+         '$limit': 5
+      }
+   ])
+   return result
+
+
+@app.route('/country/<string:country>', methods=["GET"])
 def search(country):
    fuels = get_fuels(country)
    result = [f for f in fuels]
-   return render_template('/fuels.html', country=country, result=result)
+   return render_template('/search.html', search_title=country, result=result)
+
+
+@app.route('/fuel/<string:fuel>', methods=['GET'])
+def search_top_five(fuel):
+   countries = top_five_byfuel(fuel)
+   result = [f for f in countries]
+   title = 'Top 5 for ' + fuel + ' energy'
+   return render_template('/search.html', search_title=title, result=result)

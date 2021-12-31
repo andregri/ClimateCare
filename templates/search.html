@@ -4,11 +4,10 @@
 
 {% block content %}
 
-    <h1>Result</h1>
+    <h1>{{ search_title }}</h1>
 
-    {% for res in results %}
-        <p> {{ res['name'] }} - {{ res['country_long']}} </p>
+    {% for res in result %}
+        <p> {{ res['_id'] }} - {{ res['totCapacity']}} </p>
     {% endfor %}
     
-
 {% endblock %}
