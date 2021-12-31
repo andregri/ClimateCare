@@ -64,8 +64,37 @@ def get_plant_bycountry(country: str):
    return result
 
 
+def get_fuels(country):
+   """
+   Accumulate capacities for each fuel type for a given country
+   """
+   result = power_plants.aggregate([
+      {
+         # Search country
+         '$search': {
+            'index': 'default',
+            'text': {
+               'query': country,
+               'path': 'country_long'
+            }
+         }
+      },
+      {
+         # Accumulate capacity by fuel type
+         '$group':
+         {
+            '_id': '$primary_fuel',
+            'totCapacity': {
+               '$sum': {'$toDecimal': '$capacity_mw'}
+            }
+         }
+      }
+   ])
+   return result
+
+
 @app.route('/<string:country>', methods=["GET"])
 def search(country):
-   plants = get_plant_bycountry(country)
-   result = [p for p in plants]
-   return render_template('/search.html', results=result)
+   fuels = get_fuels(country)
+   result = [f for f in fuels]
+   return render_template('/fuels.html', country=country, result=result)

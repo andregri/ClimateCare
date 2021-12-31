@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %} OurEnergy {% endblock %}
+
+{% block content %}
+
+    <h1>{{ country }}</h1>
+
+    {% for res in result %}
+        <p> {{ res['_id'] }} - {{ res['totCapacity']}} </p>
+    {% endfor %}
+    
+{% endblock %}
