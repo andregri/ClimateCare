@@ -1,6 +1,22 @@
+html { 
+    background: #d9ed92;
+}
+
 h1 {
-    border: 2px #eee solid;
-    color: brown;
+    font-family: 'Shizuru', cursive;
+    border: 2px #004b23 solid;
+    border-radius: 5px;
+    background-color: #ccff33;
+    color: #006400;
     text-align: center;
     padding: 10px;
+}
+
+p {
+    font-family: 'Varela Round', sans-serif;
+    text-align: center;
+    border: 2px solid green;
+    border-radius: 5px;
+    padding-bottom: 10px;
+    padding-top: 10px;
 }

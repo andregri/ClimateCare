@@ -102,12 +102,13 @@ def top_five_byfuel(fuel):
 def search(country):
    fuels = get_fuels(country)
    result = [f for f in fuels]
-   return render_template('/search.html', search_title=country, result=result)
+   title = country.upper()
+   return render_template('/search.html', search_title=title, result=result)
 
 
 @app.route('/fuel/<string:fuel>', methods=['GET'])
 def search_top_five(fuel):
    countries = top_five_byfuel(fuel)
    result = [f for f in countries]
-   title = 'Top 5 for ' + fuel + ' energy'
+   title = 'TOP 5 ' + fuel.upper() + ' ENERGY PRODUCERS'
    return render_template('/search.html', search_title=title, result=result)
