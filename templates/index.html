@@ -7,10 +7,14 @@
     <h1>OUR ENERGY</h1>
 
     <div>
-        <form>
-            <input type="text" placeholder="Country" name="search">
-            <button type="submit">search</button>
-        </form>
+        <input id="myText" type="text" placeholder="Country" name="search">
+        <button id="myButton">search</button>
     </div>
+
+    <script type="text/javascript">
+        document.getElementById("myButton").onclick = function () {
+            location.href = "country/" + document.getElementById("myText").value;
+        };
+    </script>
 
 {% endblock %}
