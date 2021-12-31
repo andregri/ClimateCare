@@ -4,6 +4,7 @@
 
 import os
 from dotenv import load_dotenv
+from flask.templating import render_template
 
 from pymongo.collection import Collection, ReturnDocument
 
@@ -22,7 +23,7 @@ pymongo = PyMongo(app)
 
 # Get a reference to the recipes collection.
 # Uses a type-hint, so that your IDE knows what's happening!
-recipes: Collection = pymongo.db.power_plants
+power_plants: Collection = pymongo.db.power_plants
 
 
 @app.errorhandler(404)
@@ -32,46 +33,39 @@ def resource_not_found(e):
     """
     return jsonify(error=str(e)), 404
 
-#
-#@app.route("/cocktails/")
-#def list_cocktails():
-#    """
-#    GET a list of cocktail recipes.
-#
-#    The results are paginated using the `page` parameter.
-#    """
-#
-#    page = int(request.args.get("page", 1))
-#    per_page = 10  # A const value.
-#
-#    # For pagination, it's necessary to sort by name,
-#    # then skip the number of docs that earlier pages would have displayed,
-#    # and then to limit to the fixed page size, ``per_page``.
-#    cursor = recipes.find().sort("name").skip(per_page * (page - 1)).limit(per_page)
-#
-#    cocktail_count = recipes.count_documents({})
-#
-#    links = {
-#        "self": {"href": url_for(".list_cocktails", page=page, _external=True)},
-#        "last": {
-#            "href": url_for(
-#                ".list_cocktails", page=(cocktail_count // per_page) + 1, _external=True
-#            )
-#        },
-#    }
-#    # Add a 'prev' link if it's not on the first page:
-#    if page > 1:
-#        links["prev"] = {
-#            "href": url_for(".list_cocktails", page=page - 1, _external=True)
-#        }
-#    # Add a 'next' link if it's not on the last page:
-#    if page - 1 < cocktail_count // per_page:
-#        links["next"] = {
-#            "href": url_for(".list_cocktails", page=page + 1, _external=True)
-#        }
-#
-#    return {
-#        "recipes": [Cocktail(**doc).to_json() for doc in cursor],
-#        "_links": links,
-#    }
-#
+
+@app.route('/')
+def index():
+   return render_template('/index.html')
+
+
+def get_plant_bycountry(country: str):
+   result = power_plants.aggregate([
+      {
+         '$search': {
+            'index': 'default',
+            'text': {
+               'query': country,
+               'path': 'country_long'
+            }
+         }
+      },
+      {
+         '$limit': 5
+      },
+      {
+         '$project': {
+            '_id': 0,
+            'country_long': 1,
+            'name': 1
+         }
+      }
+   ])
+   return result
+
+
+@app.route('/<string:country>', methods=["GET"])
+def search(country):
+   plants = get_plant_bycountry(country)
+   result = [p for p in plants]
+   return render_template('/search.html', results=result)

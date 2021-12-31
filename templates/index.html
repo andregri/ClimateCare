@@ -1,5 +1,16 @@
 {% extends 'base.html' %}
 
+{% block title %} OurEnergy {% endblock %}
+
 {% block content %}
-    <h1>{% block title %} Welcome to FlaskBlog {% endblock %}</h1>
+
+    <h1>Welcome to FlaskBlog</h1>
+
+    <div>
+        <form>
+            <input type="text" placeholder="Country" name="search">
+            <button type="submit">search</button>
+        </form>
+    </div>
+
 {% endblock %}
