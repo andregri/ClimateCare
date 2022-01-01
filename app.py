@@ -1,7 +1,3 @@
-"""
- - A small API for managing cocktail recipes.
-"""
-
 import os
 from dotenv import load_dotenv
 from flask.templating import render_template
@@ -37,6 +33,11 @@ def resource_not_found(e):
 @app.route('/')
 def index():
    return render_template('/index.html')
+
+
+@app.route('/contact')
+def contact():
+   return render_template('contact.html')
 
 
 def get_fuels(country):
