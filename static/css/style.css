@@ -31,7 +31,7 @@ h1 {
     padding: 10px;
 }
 
-input, button, p, a, h2, h3 {
+input, button, p, a, li, h2, h3 {
     font-family: 'Varela Round', sans-serif;
 }
 
@@ -93,4 +93,8 @@ p {
     position: relative;
     margin: 0 10px 10px 0;
     text-decoration: none;
+}
+
+#credits {
+    text-align: left;
 }
