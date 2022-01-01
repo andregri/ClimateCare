@@ -31,7 +31,7 @@ def resource_not_found(e):
     """
     An error-handler to ensure that 404 errors are returned as JSON.
     """
-    return jsonify(error=str(e)), 404
+    return render_template('404.html')
 
 
 @app.route('/')
