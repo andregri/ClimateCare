@@ -8,6 +8,8 @@ from flask import Flask, request, url_for, jsonify
 from flask_pymongo import PyMongo
 from pymongo.errors import DuplicateKeyError
 
+import db
+
 #from model import PowerPlant
 #from objectid import PydanticObjectId
 
@@ -45,68 +47,9 @@ def contact():
    return render_template('contact.html')
 
 
-def get_fuels(country):
-   """
-   Accumulate capacities for each fuel type for a given country
-   """
-   result = power_plants.aggregate([
-      {
-         # Search country
-         '$search': {
-            'index': 'default',
-            'text': {
-               'query': country,
-               'path': 'country_long'
-            }
-         }
-      },
-      {
-         # Accumulate capacity by fuel type
-         '$group':
-         {
-            '_id': '$primary_fuel',
-            'totCapacity': {
-               '$sum': {'$toDecimal': '$capacity_mw'}
-            }
-         }
-      }
-   ])
-   return result
-
-
-def top_five_byfuel(fuel):
-   """
-   Find the top five countries by fuel type capacity
-   """
-   result = power_plants.aggregate([
-      {
-         '$match': {
-            'primary_fuel': fuel
-         }
-      },
-      {
-         # Accumulate capacity by fuel type
-         '$group':
-         {
-            '_id': '$country_long',
-            'totCapacity': {
-               '$sum': {'$toDecimal': '$capacity_mw'}
-            }
-         }
-      },
-      {
-         '$sort': {'totCapacity': -1}
-      },
-      {
-         '$limit': 5
-      }
-   ])
-   return result
-
-
 @app.route('/country/<string:country>', methods=["GET"])
 def search(country):
-   fuels = get_fuels(country)
+   fuels = db.get_fuels(power_plants, country)
    result = [f for f in fuels]
    title = country.upper()
    return render_template('/search.html', search_title=title, result=result)
@@ -114,7 +57,7 @@ def search(country):
 
 @app.route('/fuel/<string:fuel>', methods=['GET'])
 def search_top_five(fuel):
-   countries = top_five_byfuel(fuel)
+   countries = db.top_five_byfuel(power_plants, fuel)
    result = [f for f in countries]
    title = 'TOP 5 ' + fuel.upper() + ' ENERGY PRODUCERS'
    return render_template('/search.html', search_title=title, result=result)
