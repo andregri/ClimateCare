@@ -24,7 +24,7 @@ pyparsing==3.0.6
 pytest==6.2.5
 pytest-cov==3.0.0
 pytest-mock==3.6.1
-python-dotenv==0.19.2
+python-dotenv==0.13.0
 repoze.lru==0.7
 toml==0.10.2
 tomli==1.2.3
