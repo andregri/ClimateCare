@@ -2,11 +2,10 @@ import os
 from dotenv import load_dotenv
 from flask.templating import render_template
 
-from pymongo.collection import Collection, ReturnDocument
+from pymongo.collection import Collection
 
-from flask import Flask, request, url_for, jsonify
+from flask import Flask
 from flask_pymongo import PyMongo
-from pymongo.errors import DuplicateKeyError
 
 import db
 
@@ -19,19 +18,10 @@ def create_app(test_config=None):
    app = Flask(__name__, instance_relative_config=True)
    app.config.from_mapping(
         # a default secret that should be overridden by instance config
-        SECRET_KEY="dev",
-        # store the database in the instance folder
-        DATABASE=os.path.join(app.instance_path, "flaskr.sqlite"),
+        SECRET_KEY=os.environ["SECRET_KEY"],
         # MongoDB uri
         MONGO_URI=os.environ["MONGODB_URI"],
    )
-
-   if test_config is None:
-      # load the instance config, if it exists, when not testing
-      app.config.from_pyfile("config.py", silent=True)
-   else:
-      # load the test config if passed in
-      app.config.update(test_config)
 
    pymongo = PyMongo(app)
 
