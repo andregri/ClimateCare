@@ -7,6 +7,7 @@
     <h1>OUR ENERGY</h1>
 
     <div id="searchBar">
+        <h3>Search by country...</h3>
         <input id="myText" type="text" placeholder="Country" name="search">
         <button id="myButton">search</button>
     </div>
@@ -16,5 +17,16 @@
             location.href = "country/" + document.getElementById("myText").value;
         };
     </script>
+
+    <div id="fuels">
+        <h3> ...or by renewable energy</h3>
+        <ul class="tags">
+            <li class="tag"><a href="/fuel/Wave and Tidal">Wave and Tidal &#127754;</a></li>
+            <li class="tag"><a href="/fuel/Hydro">hydro &#128166;</a></li>
+            <li class="tag"><a href="/fuel/Solar">solar &#127774;</a></li>
+            <li class="tag"><a href="/fuel/Wind">wind &#128168;</a></li>
+        </ul>
+        
+    </div>
 
 {% endblock %}

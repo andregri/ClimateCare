@@ -31,7 +31,7 @@ h1 {
     padding: 10px;
 }
 
-input, button, p, a {
+input, button, p, a, h3 {
     font-family: 'Varela Round', sans-serif;
 }
 
@@ -67,4 +67,30 @@ p {
     border-radius: 4px;
     background-color: #ccff33;
     color: #004b23;
+}
+
+#fuels {
+    padding: 10px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.tags {
+    list-style: none;
+    margin: 0;
+    overflow: hidden; 
+    padding: 0;
+}
+
+.tag {
+    background: #ccff33;
+    border: 2px solid #004b23;
+    border-radius: 3px 0 0 3px;
+    display: inline-block;
+    height: 26px;
+    line-height: 26px;
+    padding: 0 20px 0 23px;
+    position: relative;
+    margin: 0 10px 10px 0;
+    text-decoration: none;
 }
