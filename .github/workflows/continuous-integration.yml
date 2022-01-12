@@ -40,7 +40,7 @@ jobs:
           
       - name: Test
         env:
-          MEDIUM_INTEGRATION_TOKEN: ${{ secrets.MEDIUM_INTEGRATION_TOKEN }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
           pip install pytest
           pytest
