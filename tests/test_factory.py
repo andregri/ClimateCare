@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append('./') # Append the current folder that contains app.py
+
 from app import create_app
 
 
