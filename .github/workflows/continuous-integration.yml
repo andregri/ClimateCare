@@ -41,6 +41,7 @@ jobs:
       - name: Test
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
         run: |
           pip install pytest
           pytest
